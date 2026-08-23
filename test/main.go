@@ -1,27 +1,30 @@
 package main
 
-import "fmt"
+import(
+  "fmt"
+_"errors"
+  )
+//ощибки
+type params_error struct{}
 
-// Разобрать определение типа интерфейса
-type animal interface {
-	say()
+func (error_object params_error)Error()string{
+  return "invalid parametr"
 }
-type cat struct{}
-type dog struct{}
-type snake struct{}
+func divide (a,b int)(int, error){
+  if b <=0{
+    return 0, params_error{}
+  }else{
+    return a/b, nil
+  }
+}
 
-func (c cat) say() {
-	fmt.Println("Мяу")
-}
-func (c dog) say() {
-	fmt.Println("Гав")
-}
-func (c snake) say() {
-	fmt.Println("шшш")
-}
-func main() {
-	var Kusia cat = cat{}
-	value, ok := Kusia.(animal)
-	fmt.Println(ok)
-	fmt.Println(value)
+func main (){
+//  obj := params_error{}
+//  fmt.Println(obj.Error())
+  //fmt.Println(params_error{})
+  x, y := 10,5
+  fmt.Println(divide(x,y))
+  y =0
+    fmt.Println(divide(x,y))
+
 }
