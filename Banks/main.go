@@ -57,31 +57,36 @@ func (d DigitalAssets) IncomeMonth() float64 {
 
 func Description(a Product) {
 	fmt.Println(a)
-	fmt.Println("Доход за весь период:", a.Income())
-	fmt.Println("Доодность за месяц:", a.IncomeMonth())
+	fmt.Printf("Доход за весь период: %.f\n", a.Income())
+	fmt.Printf("Дохходность за месяц:%.f\n", a.IncomeMonth())
 }
 
 // Нужно добавить чтобы при выводе цифрового актива мне предлагался вклад для сравнения на тот же срок
-func ForComparsion(c int) {
-	fmt.Println("Вот для сравнения информация по вкладу на аналогичный срок")
+func ForComparsion(ac, rAn float64, c int) {
+	fmt.Println()
+	fmt.Println("Вот для сравнения информация по вкладу на аналогичный срок:")
+	// Для сравнения нужно в первую очередь достать отсюда процентную ставку
+	value := OpenDeposit(ac, c).(Deposit)
+	diff := rAn - value.Annual
+	fmt.Printf("Процентная ставка: %.2f\n (разница - %.2f) Доход за весь период: %.f (%.f в месяц)\n", value.Annual, diff, value.Income(), value.IncomeMonth())
 }
 
-func OpenDeposit(a float64, choice int) Deposit {
-
+func OpenDeposit(a float64, choice int) Product { // Функция открывает депозит
+	var d Product
 	if choice < 3 {
-		return Deposit{
+		d = Deposit{
 			Amount: a,
 			Term:   choice,
 			Annual: 11,
 		}
 	} else if 6 < choice && choice < 10 {
-		return Deposit{
+		d = Deposit{
 			Amount: a,
 			Term:   choice,
 			Annual: 12.2,
 		}
 	} else if 9 < choice && choice < 12 {
-		return Deposit{
+		d = Deposit{
 			Amount: a,
 			Term:   choice,
 			Annual: 12.1,
@@ -89,40 +94,39 @@ func OpenDeposit(a float64, choice int) Deposit {
 	} else {
 		switch choice {
 		case 4:
-			return Deposit{
+			d = Deposit{
 				Amount: a,
 				Term:   choice,
 				Annual: 13.6,
 			}
 		case 5:
-			return Deposit{
+			d = Deposit{
 				Amount: a,
 				Term:   choice,
 				Annual: 12.3,
 			}
 		case 6:
-			return Deposit{
+			d = Deposit{
 				Amount: a,
 				Term:   choice,
 				Annual: 13,
 			}
 		case 12:
-			return Deposit{
+			d = Deposit{
 				Amount: a,
 				Term:   choice,
 				Annual: 13,
 			}
 		case 24:
-			return Deposit{
+			d = Deposit{
 				Amount: a,
 				Term:   choice,
 				Annual: 11.8,
 			}
-		default:
-			fmt.Println("Будет ошибка")
 		}
 
 	}
+	return d
 }
 
 func main() {
@@ -204,13 +208,14 @@ metka:
 			asset := myProducts[len(myProducts)-1]
 
 			Description(asset)
-			fmt.Println("Реальная годовая процентная ставка после налогового вычета:", (asset.IncomeMonth()*1200.0)/amount)
-			ForComparsion(choice)
+			realAnnual := (asset.IncomeMonth() * 1200.0) / amount
+			fmt.Printf("Реальная годовая процентная ставка после налогового вычета: %.2f\n", realAnnual)
+			ForComparsion(amount, realAnnual, choice)
 		case 2:
 			fmt.Println("На какой срок? Доступно  от 1 до 12, или 24 месяца")
 			fmt.Scanln(&choice)
-
-			asset := myProducts[len(myProducts)-1]
+			asset := OpenDeposit(amount, choice)
+			myProducts = append(myProducts, asset)
 
 			Description(asset)
 
