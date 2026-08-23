@@ -66,6 +66,65 @@ func ForComparsion(c int) {
 	fmt.Println("Вот для сравнения информация по вкладу на аналогичный срок")
 }
 
+func OpenDeposit(a float64, choice int) Deposit {
+
+	if choice < 3 {
+		return Deposit{
+			Amount: a,
+			Term:   choice,
+			Annual: 11,
+		}
+	} else if 6 < choice && choice < 10 {
+		return Deposit{
+			Amount: a,
+			Term:   choice,
+			Annual: 12.2,
+		}
+	} else if 9 < choice && choice < 12 {
+		return Deposit{
+			Amount: a,
+			Term:   choice,
+			Annual: 12.1,
+		}
+	} else {
+		switch choice {
+		case 4:
+			return Deposit{
+				Amount: a,
+				Term:   choice,
+				Annual: 13.6,
+			}
+		case 5:
+			return Deposit{
+				Amount: a,
+				Term:   choice,
+				Annual: 12.3,
+			}
+		case 6:
+			return Deposit{
+				Amount: a,
+				Term:   choice,
+				Annual: 13,
+			}
+		case 12:
+			return Deposit{
+				Amount: a,
+				Term:   choice,
+				Annual: 13,
+			}
+		case 24:
+			return Deposit{
+				Amount: a,
+				Term:   choice,
+				Annual: 11.8,
+			}
+		default:
+			fmt.Println("Будет ошибка")
+		}
+
+	}
+}
+
 func main() {
 	var myProducts []Product
 	var choice int
@@ -148,67 +207,8 @@ metka:
 			fmt.Println("Реальная годовая процентная ставка после налогового вычета:", (asset.IncomeMonth()*1200.0)/amount)
 			ForComparsion(choice)
 		case 2:
-		metka3:
 			fmt.Println("На какой срок? Доступно  от 1 до 12, или 24 месяца")
 			fmt.Scanln(&choice)
-			if choice < 3 {
-				myProducts = append(myProducts, Deposit{
-					Amount: amount,
-					Term:   choice,
-					Annual: 11,
-				})
-			} else if 6 < choice && choice < 10 {
-				myProducts = append(myProducts, Deposit{
-					Amount: amount,
-					Term:   choice,
-					Annual: 12.2,
-				})
-			} else if 9 < choice && choice < 12 {
-				myProducts = append(myProducts, Deposit{
-					Amount: amount,
-					Term:   choice,
-					Annual: 12.1,
-				})
-			} else {
-				switch choice {
-				case 4:
-					myProducts = append(myProducts, Deposit{
-						Amount: amount,
-						Term:   choice,
-						Annual: 13.6,
-					})
-				case 5:
-					myProducts = append(myProducts, Deposit{
-						Amount: amount,
-						Term:   choice,
-						Annual: 12.3,
-					})
-				case 6:
-					myProducts = append(myProducts, Deposit{
-						Amount: amount,
-						Term:   choice,
-						Annual: 13,
-					})
-				case 12:
-					myProducts = append(myProducts, Deposit{
-						Amount: amount,
-						Term:   choice,
-						Annual: 13,
-					})
-				case 24:
-					myProducts = append(myProducts, Deposit{
-						Amount: amount,
-						Term:   choice,
-						Annual: 11.8,
-					})
-				default:
-
-					fmt.Println("ввод не верный")
-					goto metka3
-
-				}
-
-			}
 
 			asset := myProducts[len(myProducts)-1]
 
