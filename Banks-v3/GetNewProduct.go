@@ -5,8 +5,9 @@ import "fmt"
 func RepeatGetNewProduct() {
 	fmt.Println("Попробуйте ещё раз!")
 }
-func GetNewProduct(func(), error) {
+func GetNewProduct() (func(), error) {
 	var choice int
+metka:
 	fmt.Println("Что хотите сделать?")
 	fmt.Println("Получить кредит - 1")
 	fmt.Println("Накопить - 2")
@@ -32,10 +33,9 @@ func GetNewProduct(func(), error) {
 		case 6:
 			return Back, nil
 		case 7:
-			return Exit, nil
+			goto metka
 		}
 	default:
 		return RepeatGetNewProduct, parem_error{}
-
 	}
 }

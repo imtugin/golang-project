@@ -2,31 +2,25 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
-type param_error struct{}
+// создать функцию сделать её результатом другой функции. и разбить по модулям.
+// в общем будет выбор что сделать - сложить, вычесть или умножить два числа
 
-func (error_object param_error) Error() string {
-	return "Invalid parameter"
-}
+func add(x, y int) int       { return x + y }
+func substract(x, y int) int { return x - y }
+func multiply(x, y int) int  { return x * y }
 
-func factorial(n int) (int, error) {
-	if n < 0 {
-		return 0, param_error{}
+func selectFn(n int) (func(int, int) int, error) {
+	switch n {
+	case 1:
+		return add, nil
+	case 2:
+		return substract, nil
+	case 3:
+		return multiply, nil
+	default:
+		return , nil
 	}
-	resoult := 1
-	for i := 1; i < n; i++ {
-		resoult *= 1
-	}
-	return resoult, nil
-}
-
-func main() {
-	var f int
-	fmt.Println("Введите число для факториала")
-	fmt.Scanln(&f)
-	f, err := factorial(f)
-	fmt.Println("Factorial:", f)
-	fmt.Println("Error", err)
-
 }

@@ -19,7 +19,8 @@ func Exit() {
 	fmt.Println("Выхожу из приложения")
 	os.Exit(0)
 }
-func whatDo() (func(), error) {
+
+func whatDo() (func() (func(), error), error) {
 	var choice int
 	fmt.Println("Что хотите сделать?")
 	fmt.Println("Получить новый продукт - 1")
@@ -28,20 +29,24 @@ func whatDo() (func(), error) {
 	fmt.Println("Посмотреть  'мои финансы' - 4")
 	fmt.Println("Выйти - 5")
 	fmt.Scanln(&choice)
-
+metka:
 	switch choice {
 	case 1, 2, 3, 4, 5:
 
 		switch choice {
 		case 1:
+			return GetNewProduct, nil
 		case 2:
+			return MakeTransfer, nil
 		case 3:
+			return TopUpYourAccount, nil
 		case 4:
+			return View, nil
 		case 5:
-			f := Exit()
+			return Exit, nil
 		}
 
 	default:
+		goto metka
 	}
-	return f, nil
 }
