@@ -5,35 +5,23 @@ import "fmt"
 func RepeatGetNewProduct() {
 	fmt.Println("Попробуйте ещё раз!")
 }
-func GetNewProduct() (func(), error) {
-	var choice int
-metka:
-	fmt.Println("Что хотите сделать?")
-	fmt.Println("Получить кредит - 1")
-	fmt.Println("Накопить - 2")
-	fmt.Println("Страхование - 3")
-	fmt.Println("Получить дебетовую карту - 4")
-	fmt.Println("Получить кредитную карту - 5")
-	fmt.Println("Назад- 6")
-	fmt.Println("Выйти - 7")
-	fmt.Scanln(&choice)
+func (c int)GetNewProduct()  {
+
 	switch choice {
-	case 1, 2, 3, 4, 5, 6, 7:
+	case 1, 2, 3, 4, 5, 6:
 		switch choice {
 		case 1:
-			return GetCredit, nil
+			return GetCredit
 		case 2:
-			return Save, nil
+			return Save
 		case 3:
-			return Inshurance, nil
+			return Inshurance
 		case 4:
-			return GetDebitCard, nil
+			return GetDebitCard
 		case 5:
-			return GetCreditCard, nil
+			return GetCreditCard
 		case 6:
-			return Back, nil
-		case 7:
-			goto metka
+			return Back
 		}
 	default:
 		return RepeatGetNewProduct, parem_error{}

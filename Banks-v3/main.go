@@ -1,9 +1,9 @@
 package main
 
-import (
-	_ "fmt"
-)
+var balance float64 = 30000
 
-func main() {
-	whatDo()
+
+
+func main(){
+  Choise()
 }
