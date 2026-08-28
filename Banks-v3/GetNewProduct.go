@@ -1,13 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-func RepeatGetNewProduct() {
-	fmt.Println("Попробуйте ещё раз!")
-}
-func GetNewProduct() (func(), error) {
+func GetNewProduct() {
 	var choice int
-metka:
+loop:
 	fmt.Println("Что хотите сделать?")
 	fmt.Println("Получить кредит - 1")
 	fmt.Println("Накопить - 2")
@@ -21,21 +21,24 @@ metka:
 	case 1, 2, 3, 4, 5, 6, 7:
 		switch choice {
 		case 1:
-			return GetCredit, nil
+			GetCredit()
 		case 2:
-			return Save, nil
+			Save()
 		case 3:
-			return Inshurance, nil
+			Inshurance()
 		case 4:
-			return GetDebitCard, nil
+			GetDebitCard()
 		case 5:
-			return GetCreditCard, nil
+			GetCreditCard()
 		case 6:
-			return Back, nil
+			whatDo()
 		case 7:
-			goto metka
+
+			fmt.Println("Выхожу из программы...")
+			os.Exit(3)
 		}
 	default:
-		return RepeatGetNewProduct, parem_error{}
+		fmt.Println("Попробуйте ещё раз")
+		goto loop
 	}
 }

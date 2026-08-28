@@ -5,12 +5,6 @@ import (
 	"os"
 )
 
-type parem_error struct{}
-
-func (error_object parem_error) Error() string {
-	return "Invalid parameter"
-}
-
 func RepeatWhatDo() {
 	fmt.Println("Попробуйте ещё раз!")
 }
@@ -20,8 +14,7 @@ func Exit() {
 	os.Exit(0)
 }
 
-func whatDo() (func() (func(), error), error) {
-	var choice int
+func whatDo() {
 	fmt.Println("Что хотите сделать?")
 	fmt.Println("Получить новый продукт - 1")
 	fmt.Println("Сделать перевод - 2")
@@ -35,15 +28,15 @@ metka:
 
 		switch choice {
 		case 1:
-			return GetNewProduct, nil
+			//			return GetNewProduct, nil
 		case 2:
-			return MakeTransfer, nil
+			MakeTransfer()
 		case 3:
-			return TopUpYourAccount, nil
+			TopUpYourAccount(&balance)
 		case 4:
-			return View, nil
+			//			return View, nil
 		case 5:
-			return Exit, nil
+			//			return Exit, nil
 		}
 
 	default:
