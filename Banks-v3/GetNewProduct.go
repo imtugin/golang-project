@@ -1,29 +1,44 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-func RepeatGetNewProduct() {
-	fmt.Println("Попробуйте ещё раз!")
-}
-func (c int)GetNewProduct()  {
-
+func GetNewProduct() {
+	var choice int
+loop:
+	fmt.Println("Что хотите сделать?")
+	fmt.Println("Получить кредит - 1")
+	fmt.Println("Накопить - 2")
+	fmt.Println("Страхование - 3")
+	fmt.Println("Получить дебетовую карту - 4")
+	fmt.Println("Получить кредитную карту - 5")
+	fmt.Println("Назад- 6")
+	fmt.Println("Выйти - 7")
+	fmt.Scanln(&choice)
 	switch choice {
-	case 1, 2, 3, 4, 5, 6:
+	case 1, 2, 3, 4, 5, 6, 7:
 		switch choice {
 		case 1:
-			return GetCredit
+			GetCredit()
 		case 2:
-			return Save
+			Save()
 		case 3:
-			return Inshurance
+			Inshurance()
 		case 4:
-			return GetDebitCard
+			GetDebitCard()
 		case 5:
-			return GetCreditCard
+			GetCreditCard()
 		case 6:
-			return Back
+			whatDo()
+		case 7:
+
+			fmt.Println("Выхожу из программы...")
+			os.Exit(3)
 		}
 	default:
-		return RepeatGetNewProduct, parem_error{}
+		fmt.Println("Попробуйте ещё раз")
+		goto loop
 	}
 }

@@ -1,43 +1,52 @@
 package main
 
 import (
-  "fmt"
- _ "errors"
-  )
+	"fmt"
+	"os"
+)
 
-  var sumTransfer float64 = 5000
-
-
-
-func Transfer(b *float64) {
-  *b-=sumTransfer
-	fmt.Println("Перевод осуществлён как будто")
+func (object_error object_error) Error() string {
+	return "no many!"
 }
 
-var obj param_error
+type param_error interface {
+	Error() string
+}
+type object_error struct{}
 
-type param_error struct{}
-
-func(object_error param_error)Error(){
-  return "no money!"
+func Transfer(b *float64, s float64) interface{} {
+	if s <= *b {
+		*b -= s
+		return nil
+	} else {
+		return object_error{}
+	}
 }
 
-  func CheckBalance(b, t float64)error{
-    if t<b{
-      return obj.Error
-    }else{
-      return nil
-    }
-  }
+func MakeTransfer() {
+	var sumTransfer float64
+	fmt.Println("Введите сумму перевода")
+	fmt.Scanln(&sumTransfer)
+	err := Transfer(&balance, sumTransfer)
+	if err != nil {
+		fmt.Println("Не достаточно средств")
+	} else {
+		fmt.Println("Перевод осуществлён")
+		fmt.Println("На балансе:", balance)
+	}
+	fmt.Println("Вернуться на главный экран - y. Новый перевод - n. Выйти - exit")
+	fmt.Scanln(&strChoice)
+	switch strChoice {
+	case "y":
+		whatDo()
+	case "n":
+		MakeTransfer()
+	case "exit":
+		fmt.Println("Выхожу из программы...")
+		os.Exit(0)
+	default:
+		fmt.Println("Выбран неизвестный вариант. Возвращаюсь на главный экран...")
+		whatDo()
+	}
 
-func MakeTransfer()  {
-  
-  
-	fmt.Println("Кому перевести")
-
-  if CheckBalance !=nil{
-      Transfer(&balance)
-  }else{
-    fmt.Println("пополните счет")
-  }
 }
