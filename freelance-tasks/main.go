@@ -14,16 +14,21 @@ type Task interface {
 type DesignTask struct {
 	ProjectName string
 	Pages       int
+	isComplete  bool
 }
 type CodeTask struct {
-	Language string
-	Hours    int
+	Language   string
+	Hours      int
+	isComplete bool
 }
 
 type TextTask struct {
-	Topic string
-	Words int
+	Topic      string
+	Words      int
+	isComplete bool
 }
+
+type DesinTaskSlice []DesignTask
 
 // DesignTask
 func (d DesignTask) Execute() string {
@@ -129,17 +134,35 @@ func FindCheapest(tasks []Task) Task {
 	return cheapestTask
 }
 
+func (d *DesinTaskSlice) MarkDone() {
+	for i := range *d {
+		if (*d)[i].isComplete == false {
+			(*d)[i].isComplete = true
+		}
+	}
+}
 func main() {
 	var input int
 	var inputStr string
 	alltasks := []Task{
-		DesignTask{"дизайн альбома", 20},
-		DesignTask{"дизайн сайта", 10},
-		CodeTask{"JS", 3},
-		CodeTask{"TS", 154},
-		TextTask{"Важность китайско-кыргызско-узбекской железной дороги для стран Центральной Азии", 4},
-		TextTask{"Искусственный интеллект - когда судныый день", 2},
+		DesignTask{"дизайн альбома", 20, true},
+		DesignTask{"дизайн сайта", 10, false},
+		DesignTask{"дизайн офиса", 30, false},
+		CodeTask{"JS", 3, false},
+		CodeTask{"TS", 154, true},
+		TextTask{"Важность китайско-кыргызско-узбекской железной дороги для стран Центральной Азии", 4, false},
+		TextTask{"Искусственный интеллект - когда судныый день", 2, false},
 	}
+
+	var designTasks DesinTaskSlice = DesinTaskSlice{
+		DesignTask{"дизайн альбома", 20, true},
+		DesignTask{"дизайн сайта", 10, false},
+		DesignTask{"дизайн офиса", 30, false},
+	}
+	fmt.Println("Задачи по дизайну до выполнения:", designTasks)
+	designTasks.MarkDone()
+	fmt.Println("Задачи по дизайну выполненные:", designTasks)
+
 	for i := range alltasks {
 		fmt.Println(i+1, ".", alltasks[i].Execute(), alltasks[i].Difficulty(), "Цена:", alltasks[i].Price(), "рублей")
 	}
