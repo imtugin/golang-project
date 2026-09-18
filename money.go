@@ -3,18 +3,20 @@ package main
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
+	_ "sync/atomic"
 )
 
 func main() {
-	var money int
+	var money atomic.Int32
 	wg := sync.WaitGroup{}
-	for range 1000 {
-		wg.Add(1)
+	wg.Add(3)
+	for range 3 {
 		go func() {
 			defer wg.Done()
-			money++
+			money.Add(5)
 		}()
-		wg.Wait()
 	}
-	fmt.Println(money)
+	wg.Wait()
+	fmt.Println(money.Load())
 }
