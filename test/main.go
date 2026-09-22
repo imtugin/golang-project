@@ -20,12 +20,16 @@ func randomWait() int { // функция совершает работу как
 func main() {
 	start := time.Now()
 	wg := &sync.WaitGroup{}
+	mutex := sync.Mutex{}
 	var totalWorkSeconds int // время выполнения main (надо до 5 сек), сколько timesleep в сумме в каждом вызове
 	wg.Add(100)
 	for range 100 {
 		go func() {
 			defer wg.Done()
-			totalWorkSeconds += randomWait()
+			seconds := randomWait()
+			mutex.Lock()
+			totalWorkSeconds += seconds
+			mutex.Unlock()
 		}()
 	}
 	wg.Wait()
