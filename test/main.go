@@ -3,30 +3,28 @@ package main
 import (
 	"fmt"
 	"sync"
-	_ "sync/atomic"
 )
 
 func main() {
-	var money int32
-	var donationsCount int32
-
+	var money, donationsCount int
 	wg := &sync.WaitGroup{}
 	mutex := &sync.Mutex{}
 
 	go func() {
 		for {
+			defer wg.Done()
 			mutex.Lock()
 			m := money
 			dc := donationsCount
 			if m != dc {
-				fmt.Println("money=", m, "donations=", dc)
-				break
+				fmt.Println("money=", m, "donations=", donationsCount)
 			}
 			mutex.Unlock()
 		}
 	}()
 	wg.Add(1000)
 	for range 1000 {
+
 		go func() {
 			defer wg.Done()
 			mutex.Lock()
@@ -35,7 +33,5 @@ func main() {
 			mutex.Unlock()
 		}()
 	}
-	wg.Wait()
 	fmt.Println(money)
-
 }
