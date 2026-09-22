@@ -44,28 +44,34 @@ func DescriptionAll(eVTB, eOzon expenses, my float64) {
 	fmt.Println()
 }
 func main() {
-	var expCreditVTB expenses = expenses{165.43, 4961, 2486.12, 190.98, 484.67, 150, 60, 1298.27, 159.99, 2517, 79.90, 506.45, 343.29, 485.95, 640} //это список моих расходов по кредитке
-	var expInstallmentOzon expenses = expenses{10000, 469, 2591, 131, 2576, 929, 1294}
-	var ownFounds float64 = 5047.37 //
+	var expCreditVTB expenses = expenses{50000} //это список моих расходов по кредитке
+	var expInstallmentOzon expenses = expenses{50000}
+	var ownFounds float64 = 147.37
 	DescriptionAll(expCreditVTB, expInstallmentOzon, ownFounds)
-	var yn byte
-	fmt.Println("Добавить расходы?y/n")
+	var yn string
+	fmt.Println("1 - Добавить расходы?")
+	fmt.Println("2 - Добавить планируемые поступления?")
 	fmt.Scanln(&yn)
-	if yn == 'y' {
+	switch yn {
+	case "1":
 		fmt.Println("Выберите счёт:")
 		fmt.Println(" 1 - Кредитная карта ВТБ")
 		fmt.Println(" 2 - перевод со счёта Ozon рассрочки")
 		fmt.Scanln(&yn)
-		if yn == 1 {
+		switch yn {
+		case "1":
 			AddExpenses(&expCreditVTB)
 			DescriptionAll(expCreditVTB, expInstallmentOzon, ownFounds)
-		} else if yn == 2 {
+		case "2":
 			AddExpenses(&expInstallmentOzon)
 			DescriptionAll(expCreditVTB, expInstallmentOzon, ownFounds)
-		} else {
+		default:
 			fmt.Println(errors.New("Неправильный ввод"))
 		}
-	} else if yn != 'n' {
+	case "2":
+		fmt.Println()
+
+	default:
 		fmt.Println(errors.New("Неправильный ввод (y/n)"))
 	}
 }
