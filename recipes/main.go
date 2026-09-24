@@ -1,50 +1,68 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
-// потом изучить мапы, и возможно они больше подойдут здесь чем простые пременные
+type Recipes interface {
+	List()
+	Change()
+}
 
+type Ingredients map[string]float64
+
+// изучить мапы, и возможно они больше подойдут здесь чем простые пременные
+// Изучить запись файл. Создать файл, чтение из файла (или файлы с рецептами)
+
+func List(r Ingredients) {
+	fmt.Println()
+	fmt.Println("Список ингридиентов")
+	fmt.Println("-------------------")
+	for i := range r {
+		fmt.Printf("%s: %.f\n", i, r[i])
+	}
+	fmt.Println()
+	fmt.Println()
+}
+
+func Change(r *Ingredients) {
+	var inputIngredients, inputGram string
+	fmt.Println("Введите название ингридиента, который нужно изменить")
+	fmt.Scanln(&inputIngredients)
+	slice := *r
+	for i := range slice {
+		if i == inputIngredients {
+			fmt.Println("Введите нужное количество грамм:")
+			fmt.Scanln(&inputGram)
+			val, err := strconv.ParseFloat(inputGram, 64)
+			if err != nil {
+				fmt.Println("Не удалось конвенртировать ввёдённое количество", err)
+				return
+			} else if val == 0 {
+				fmt.Println("Вы ввели 0", err)
+			}
+			ratio := val / slice[i]
+			for i := range slice {
+				slice[i] *= ratio
+			}
+
+		}
+	}
+
+}
 func main() {
-	// Ингридиенты в граммах по рецепту
-	var cottageCheese float64 = 180 // творог
-	var cucumber float64 = 120      // огурец
-	var radish float64 = 60         // редис
-	var herbs float64 = 15          // зелень
-	var sourCream float64 = 20      // сметана
-	var ingredients []float64 = []float64{
-		cottageCheese,
-		cucumber,
-		radish,
-		herbs,
-		sourCream,
+	recipes := Ingredients{
+		"Творог":  180,
+		"Огурец":  120,
+		"Редис":   60,
+		"Зелень":  15,
+		"Сметана": 20,
 	}
 
-	fmt.Println("Граммовка до изменения")
-	fmt.Println()
+	List(recipes)
+	Change(&recipes)
+	fmt.Println("После")
+	List(recipes)
 
-	// Вот тут чтобы самостоятельно не расписывать я мог бы сделать название - ключ, значиние - граммовка. И пройтись циклом по массиву
-	fmt.Printf("Творог: %.f\n", ingredients[0])
-	fmt.Printf("Огурец: %.f\n", ingredients[1])
-	fmt.Printf("Редис: %.f\n", ingredients[2])
-	fmt.Printf("Зелень: %.f\n", ingredients[3])
-	fmt.Printf("Сметана: %.f\n", ingredients[4])
-
-	// Ингридинты, граммовку которых я изменяю
-	var modified float64 = 470
-
-	ratio := modified / cottageCheese
-
-	for i := range ingredients {
-		ingredients[i] *= ratio
-	}
-
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("Граммовка после изменения")
-	fmt.Println()
-	fmt.Printf("Творог: %.f\n", ingredients[0])
-	fmt.Printf("Огурец: %.f\n", ingredients[1])
-	fmt.Printf("Редис: %.f\n", ingredients[2])
-	fmt.Printf("Зелень: %.f\n", ingredients[3])
-	fmt.Printf("Сметана: %.f\n", ingredients[4])
 }
