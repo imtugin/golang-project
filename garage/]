@@ -1,0 +1,48 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type Material struct {
+	width,
+	lenght,
+	S float64
+}
+type Roof struct {
+	width,
+	lenght,
+	S float64
+}
+
+func numbersOfRolls(r Roof, f Material) float64 {
+	overlap := 0.1
+	// количество кусков
+return 	math.Ceil(math.Ceil(r.lenght / (f.width - overlap)) * r.width) / f.lenght))
+}
+
+// Рассчёт ширины
+func CalculateWidth(f *Material) {
+	f.width = f.lenght / f.S
+}
+func S(r *Roof) float64 {
+	return r.lenght * r.width
+}
+
+func Description(f Material, r Roof) {
+	fmt.Println("Для материала длиной", f.lenght, "и площадью", f.S)
+	fmt.Println("Ширина рулона будет", f.width)
+	fmt.Println("Необходимое количество рулонов на крышу:", numbersOfRolls(r, f))
+}
+func main() {
+	var felt10 Material = Material{lenght: 10, S: 10}
+	var felt15 Material = Material{lenght: 15, S: 15}
+	var roof Roof = Roof{lenght: 7.3, width: 4.1}
+	CalculateWidth(&felt10)
+	CalculateWidth(&felt15)
+	fmt.Println("Площаль крыши:", S(&roof))
+	Description(felt10, roof)
+	Description(felt15, roof)
+
+}
